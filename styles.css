@@ -629,6 +629,13 @@ img {
   padding-top: 4px;
 }
 
+.location-pill--lime {
+  background: var(--lime) !important;
+  color: var(--dark) !important;
+  border-color: var(--lime) !important;
+  font-weight: 600;
+}
+
 .location-pill {
   display: inline-block;
   padding: 6px 14px;
