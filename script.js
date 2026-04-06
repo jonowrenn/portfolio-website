@@ -4,11 +4,9 @@
 document.getElementById("year").textContent = new Date().getFullYear();
 
 /* ============================================================
-   SCROLL REVEAL — staggered fade + slide up
+   SCROLL REVEAL
 ============================================================ */
 const revealSelectors = [
-  ".hero__sidebar",
-  ".hero__main",
   ".projects-intro",
   ".pcard",
   ".skill-group",
@@ -17,13 +15,9 @@ const revealSelectors = [
   ".contact-left",
   ".contact-right",
   ".section-heading-light",
-  ".section-heading",
-  ".section-label",
 ];
 
-const revealEls = document.querySelectorAll(revealSelectors.join(", "));
-
-revealEls.forEach((el) => {
+document.querySelectorAll(revealSelectors.join(", ")).forEach((el) => {
   el.classList.add("reveal");
 });
 
@@ -36,19 +30,26 @@ const revealObserver = new IntersectionObserver(
       }
     });
   },
-  { threshold: 0.08, rootMargin: "0px 0px -48px 0px" }
+  { threshold: 0.1, rootMargin: "0px 0px -32px 0px" }
 );
 
-// Stagger siblings in the same parent
-revealEls.forEach((el) => {
-  const siblings = Array.from(el.parentElement.querySelectorAll(":scope > .reveal"));
-  const idx = siblings.indexOf(el);
-  el.style.transitionDelay = `${idx * 80}ms`;
-  revealObserver.observe(el);
+// Simple index-based stagger within each parent group
+const groups = new Map();
+document.querySelectorAll(".reveal").forEach((el) => {
+  const key = el.parentElement;
+  if (!groups.has(key)) groups.set(key, []);
+  groups.get(key).push(el);
+});
+
+groups.forEach((els) => {
+  els.forEach((el, i) => {
+    el.style.transitionDelay = `${i * 70}ms`;
+    revealObserver.observe(el);
+  });
 });
 
 /* ============================================================
-   OUTCOME COUNTERS — count up on scroll into view
+   OUTCOME COUNTERS
 ============================================================ */
 function easeOutQuart(t) {
   return 1 - Math.pow(1 - t, 4);
@@ -59,14 +60,15 @@ function animateCounter(el) {
   const isPercent = raw.endsWith("%");
   const isHrs = raw.endsWith("hrs");
   const num = parseFloat(raw.replace(/[^0-9.]/g, ""));
-  const duration = 1400;
+  const duration = 1200;
   const start = performance.now();
 
   function tick(now) {
-    const elapsed = now - start;
-    const progress = Math.min(elapsed / duration, 1);
+    const progress = Math.min((now - start) / duration, 1);
     const value = Math.round(easeOutQuart(progress) * num);
-    el.textContent = isPercent ? `${value}%` : isHrs ? `${value}hrs` : `${value}+`;
+    if (isPercent) el.textContent = `${value}%`;
+    else if (isHrs) el.textContent = `${value}hrs`;
+    else el.textContent = `${value}+`;
     if (progress < 1) requestAnimationFrame(tick);
   }
 
@@ -82,7 +84,7 @@ const counterObserver = new IntersectionObserver(
       }
     });
   },
-  { threshold: 0.5 }
+  { threshold: 0.6 }
 );
 
 document.querySelectorAll(".outcome-stat").forEach((el) => {
@@ -90,7 +92,7 @@ document.querySelectorAll(".outcome-stat").forEach((el) => {
 });
 
 /* ============================================================
-   ACTIVE NAV — highlight current section
+   ACTIVE NAV
 ============================================================ */
 const sections = document.querySelectorAll("section[id]");
 const navLinks = document.querySelectorAll(".site-nav__links a");
@@ -108,7 +110,7 @@ const navObserver = new IntersectionObserver(
       }
     });
   },
-  { threshold: 0.3 }
+  { threshold: 0.35 }
 );
 
-sections.forEach((section) => navObserver.observe(section));
+sections.forEach((s) => navObserver.observe(s));
