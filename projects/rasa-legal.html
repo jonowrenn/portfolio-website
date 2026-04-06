@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rasa Legal — Jonathan Wrenn</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="project.css" />
+</head>
+<body>
+
+  <nav class="project-nav">
+    <a href="../index.html" class="project-nav__back">← Back</a>
+    <a href="../index.html" class="project-nav__logo">Jonathan Wrenn</a>
+  </nav>
+
+  <header class="project-hero section--dark">
+    <div class="container">
+      <p class="project-hero__cat">{ Software Engineering }</p>
+      <h1 class="project-hero__title">Rasa Legal</h1>
+      <div class="project-hero__meta">
+        <span class="location-pill">Remote</span>
+        <span class="project-hero__dates">Jun 2025 – Aug 2025</span>
+        <span class="project-hero__role">Software Engineer Intern</span>
+      </div>
+      <a href="https://www.rasa-legal.com/" target="_blank" rel="noreferrer" class="btn btn--lime project-hero__link">Visit Site ↗</a>
+    </div>
+  </header>
+
+  <main class="project-body section--light">
+    <div class="container project-layout">
+
+      <section class="project-section">
+        <h2 class="project-section__title">Overview</h2>
+        <p class="project-section__text">Automated document classification system using LLMs and SQL to classify documents, enforce criteria, and surface issues for remediation — resulting in faster reviews and higher data quality across 10,000+ legal documents.</p>
+      </section>
+
+      <section class="project-section">
+        <h2 class="project-section__title">Key Accomplishments</h2>
+        <ul class="project-bullets">
+          <li>Automated classification of 10,000+ legal documents using Python scripts and large language models, significantly reducing manual review time for routine classifications.</li>
+          <li>Implemented validation rules and confidence scoring pipelines for audit compliance.</li>
+          <li>Created data quality audit processes flagging duplicates, taxonomy drift, and label conflicts across large-scale PostgreSQL databases.</li>
+          <li>Developed and optimized data classification pipelines, refining classification criteria for improved accuracy.</li>
+        </ul>
+      </section>
+
+      <section class="project-section">
+        <h2 class="project-section__title">Technologies</h2>
+        <div class="project-tags">
+          <span class="project-tag">Python</span>
+          <span class="project-tag">SQL / PostgreSQL</span>
+          <span class="project-tag">Pandas</span>
+          <span class="project-tag">Pydantic</span>
+          <span class="project-tag">OpenAI API</span>
+        </div>
+      </section>
+
+      <section class="project-section">
+        <h2 class="project-section__title">Key Skills Applied</h2>
+        <div class="project-tags">
+          <span class="project-tag">Prompt Design</span>
+          <span class="project-tag">Pipeline Orchestration</span>
+          <span class="project-tag">Query Optimization</span>
+          <span class="project-tag">Validation & Logging</span>
+          <span class="project-tag">Documentation</span>
+        </div>
+      </section>
+
+      <div class="project-outcome">
+        <p class="outcome-stat">10k+</p>
+        <p class="outcome-label">Legal documents</p>
+        <p class="outcome-desc">automatically classified and audited with significantly reduced manual review time</p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer section--dark">
+    <p>© <span id="year"></span> Jonathan Wrenn</p>
+    <div class="footer__links">
+      <a href="../Wrenn,_Jonathan_Resume%20(1).pdf" target="_blank" rel="noreferrer">Resume</a>
+      <a href="https://github.com/jonowrenn" target="_blank" rel="noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/jonathanwrenn218" target="_blank" rel="noreferrer">LinkedIn</a>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

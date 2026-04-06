@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CS Study Assistant — Jonathan Wrenn</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="project.css" />
+</head>
+<body>
+
+  <nav class="project-nav">
+    <a href="../index.html" class="project-nav__back">← Back</a>
+    <a href="../index.html" class="project-nav__logo">Jonathan Wrenn</a>
+  </nav>
+
+  <header class="project-hero section--dark">
+    <div class="container">
+      <p class="project-hero__cat">{ Software Engineering }</p>
+      <h1 class="project-hero__title">CS Study Assistant</h1>
+      <div class="project-hero__meta">
+        <span class="project-hero__dates">May 2024 – Feb 2025</span>
+        <span class="project-hero__role">Lead Developer</span>
+      </div>
+      <a href="https://huggingface.co/spaces/jonowrenn/gpt-chatbot" target="_blank" rel="noreferrer" class="btn btn--lime project-hero__link">Live Demo ↗</a>
+    </div>
+  </header>
+
+  <main class="project-body section--light">
+    <div class="container project-layout">
+
+      <section class="project-section">
+        <h2 class="project-section__title">Overview</h2>
+        <p class="project-section__text">A shareable, secure LLM chatbot demonstrating prompt design, OpenAI SDK v1 integration, stateful chat UX, and modern deployment with API key protection and cost management. Shipped as a live, portfolio-ready GPT chatbot with conversation memory and safe usage controls.</p>
+      </section>
+
+      <section class="project-section">
+        <h2 class="project-section__title">Key Features</h2>
+        <ul class="project-bullets">
+          <li>Topic context and conversation history support for multi-turn CS study sessions.</li>
+          <li>One-click web demo with hard usage limits and token/turn caps for public safety.</li>
+          <li>Optional BYOK (Bring Your Own Key) textbox for advanced users.</li>
+          <li>Polished chat interface with retry/undo functionality via Gradio's ChatInterface.</li>
+          <li>Deployed on Hugging Face Spaces with secrets management and usage guardrails.</li>
+        </ul>
+      </section>
+
+      <section class="project-section">
+        <h2 class="project-section__title">Technologies</h2>
+        <div class="project-tags">
+          <span class="project-tag">Python</span>
+          <span class="project-tag">Gradio</span>
+          <span class="project-tag">OpenAI Python SDK v1</span>
+          <span class="project-tag">Hugging Face Spaces</span>
+        </div>
+      </section>
+
+      <section class="project-section">
+        <h2 class="project-section__title">Key Skills Applied</h2>
+        <div class="project-tags">
+          <span class="project-tag">Prompt Engineering</span>
+          <span class="project-tag">Conversation State Management</span>
+          <span class="project-tag">Secrets Management</span>
+          <span class="project-tag">Usage Guardrails</span>
+          <span class="project-tag">Deployment Configuration</span>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer section--dark">
+    <p>© <span id="year"></span> Jonathan Wrenn</p>
+    <div class="footer__links">
+      <a href="../Wrenn,_Jonathan_Resume%20(1).pdf" target="_blank" rel="noreferrer">Resume</a>
+      <a href="https://github.com/jonowrenn" target="_blank" rel="noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/jonathanwrenn218" target="_blank" rel="noreferrer">LinkedIn</a>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
