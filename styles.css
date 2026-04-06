@@ -813,7 +813,7 @@ img {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding: 28px calc((100% - var(--page-w)) / 2);
+  padding: 28px max(24px, calc((100% - var(--page-w)) / 2));
   border-top: 1px solid var(--border-dark);
   flex-wrap: wrap;
   margin-top: 48px;
@@ -941,13 +941,12 @@ img {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 24px 0;
-  width: var(--page-w);
-  margin: 0 auto;
+  padding: 24px max(24px, calc((100% - var(--page-w)) / 2));
   border-top: 1px solid var(--border-dark);
   font-size: 0.85rem;
   color: var(--muted-on-dark);
   flex-wrap: wrap;
+  background: var(--dark);
 }
 
 .footer__links {
