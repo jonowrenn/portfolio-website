@@ -1,33 +1,114 @@
-// Year
+/* ============================================================
+   YEAR
+============================================================ */
 document.getElementById("year").textContent = new Date().getFullYear();
 
-// Scroll reveal — fade + slide up on entry
-const revealEls = document.querySelectorAll(
-  ".hero__sidebar, .hero__main, .projects-intro, .projects-sublabel, .project-card, .skills-heading, .skill-row, .experience-item, .outcome-card, .contact-left, .contact-right, .freelance-bar"
-);
+/* ============================================================
+   SCROLL REVEAL — staggered fade + slide up
+============================================================ */
+const revealSelectors = [
+  ".hero__sidebar",
+  ".hero__main",
+  ".projects-intro",
+  ".pcard",
+  ".skill-group",
+  ".experience-item",
+  ".outcome-card",
+  ".contact-left",
+  ".contact-right",
+  ".section-heading-light",
+  ".section-heading",
+  ".section-label",
+];
+
+const revealEls = document.querySelectorAll(revealSelectors.join(", "));
+
+revealEls.forEach((el) => {
+  el.classList.add("reveal");
+});
 
 const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
+        entry.target.classList.add("revealed");
         revealObserver.unobserve(entry.target);
       }
     });
   },
-  { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+  { threshold: 0.08, rootMargin: "0px 0px -48px 0px" }
 );
 
-revealEls.forEach((el, i) => {
-  el.style.opacity = "0";
-  el.style.transform = "translateY(28px)";
-  el.style.transition = `opacity 600ms ease ${i % 4 * 80}ms, transform 600ms ease ${i % 4 * 80}ms`;
+// Stagger siblings in the same parent
+revealEls.forEach((el) => {
+  const siblings = Array.from(el.parentElement.querySelectorAll(":scope > .reveal"));
+  const idx = siblings.indexOf(el);
+  el.style.transitionDelay = `${idx * 80}ms`;
   revealObserver.observe(el);
 });
 
-// is-visible state
-document.addEventListener("DOMContentLoaded", () => {
-  const style = document.createElement("style");
-  style.textContent = ".is-visible { opacity: 1 !important; transform: translateY(0) !important; }";
-  document.head.appendChild(style);
+/* ============================================================
+   OUTCOME COUNTERS — count up on scroll into view
+============================================================ */
+function easeOutQuart(t) {
+  return 1 - Math.pow(1 - t, 4);
+}
+
+function animateCounter(el) {
+  const raw = el.textContent.trim();
+  const isPercent = raw.endsWith("%");
+  const isHrs = raw.endsWith("hrs");
+  const num = parseFloat(raw.replace(/[^0-9.]/g, ""));
+  const duration = 1400;
+  const start = performance.now();
+
+  function tick(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const value = Math.round(easeOutQuart(progress) * num);
+    el.textContent = isPercent ? `${value}%` : isHrs ? `${value}hrs` : `${value}+`;
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+
+  requestAnimationFrame(tick);
+}
+
+const counterObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        counterObserver.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.5 }
+);
+
+document.querySelectorAll(".outcome-stat").forEach((el) => {
+  counterObserver.observe(el);
 });
+
+/* ============================================================
+   ACTIVE NAV — highlight current section
+============================================================ */
+const sections = document.querySelectorAll("section[id]");
+const navLinks = document.querySelectorAll(".site-nav__links a");
+
+const navObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        navLinks.forEach((link) => {
+          link.classList.toggle(
+            "nav-active",
+            link.getAttribute("href") === `#${entry.target.id}`
+          );
+        });
+      }
+    });
+  },
+  { threshold: 0.3 }
+);
+
+sections.forEach((section) => navObserver.observe(section));
