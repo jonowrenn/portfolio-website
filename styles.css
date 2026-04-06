@@ -156,14 +156,14 @@ img {
   top: 0;
   right: 0;
   width: 78%;
-  height: 100%;
+  height: 82%;
   background-color: var(--lime);
   background-image: repeating-linear-gradient(
     -45deg,
     transparent 0px,
     transparent 18px,
-    rgba(255, 255, 255, 0.16) 18px,
-    rgba(255, 255, 255, 0.16) 20px
+    rgba(255, 255, 255, 0.13) 18px,
+    rgba(255, 255, 255, 0.13) 20px
   );
   clip-path: polygon(5% 0%, 100% 0%, 100% 100%, 0% 100%);
   z-index: 0;
@@ -370,6 +370,7 @@ img {
 .projects-intro {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 0;
 }
 
@@ -597,7 +598,7 @@ img {
 .skill-bar__label {
   position: absolute;
   top: 50%;
-  left: var(--pct);
+  left: clamp(40px, var(--pct), calc(100% - 60px));
   transform: translate(-50%, -50%);
   background: var(--lime);
   color: var(--dark);
@@ -841,11 +842,10 @@ img {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding: 28px 0;
-  width: var(--page-w);
-  margin: 0 auto;
+  padding: 28px calc((100% - var(--page-w)) / 2);
   border-top: 1px solid var(--border-dark);
   flex-wrap: wrap;
+  margin-top: 48px;
 }
 
 .freelance-bar p {
