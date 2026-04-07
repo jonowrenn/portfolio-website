@@ -1,26 +1,11 @@
 /* ============================================================
    YEAR
 ============================================================ */
-document.getElementById("year").textContent = new Date().getFullYear();
+document.getElementById("year") && (document.getElementById("year").textContent = new Date().getFullYear());
 
 /* ============================================================
    SCROLL REVEAL
 ============================================================ */
-const revealSelectors = [
-  ".projects-intro",
-  ".pcard",
-  ".skill-group",
-  ".experience-item",
-  ".outcome-card",
-  ".contact-left",
-  ".contact-right",
-  ".section-heading-light",
-];
-
-document.querySelectorAll(revealSelectors.join(", ")).forEach((el) => {
-  el.classList.add("reveal");
-});
-
 const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -30,10 +15,9 @@ const revealObserver = new IntersectionObserver(
       }
     });
   },
-  { threshold: 0.1, rootMargin: "0px 0px -32px 0px" }
+  { threshold: 0.08, rootMargin: "0px 0px -32px 0px" }
 );
 
-// Simple index-based stagger within each parent group
 const groups = new Map();
 document.querySelectorAll(".reveal").forEach((el) => {
   const key = el.parentElement;
@@ -43,7 +27,7 @@ document.querySelectorAll(".reveal").forEach((el) => {
 
 groups.forEach((els) => {
   els.forEach((el, i) => {
-    el.style.transitionDelay = `${i * 70}ms`;
+    el.style.transitionDelay = `${i * 60}ms`;
     revealObserver.observe(el);
   });
 });
@@ -51,9 +35,7 @@ groups.forEach((els) => {
 /* ============================================================
    OUTCOME COUNTERS
 ============================================================ */
-function easeOutQuart(t) {
-  return 1 - Math.pow(1 - t, 4);
-}
+function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); }
 
 function animateCounter(el) {
   const raw = el.textContent.trim();
@@ -71,46 +53,61 @@ function animateCounter(el) {
     else el.textContent = `${value}+`;
     if (progress < 1) requestAnimationFrame(tick);
   }
-
   requestAnimationFrame(tick);
 }
 
-const counterObserver = new IntersectionObserver(
+new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         animateCounter(entry.target);
-        counterObserver.unobserve(entry.target);
+        entry.target._counted = true;
       }
     });
   },
   { threshold: 0.6 }
-);
-
-document.querySelectorAll(".outcome-stat").forEach((el) => {
-  counterObserver.observe(el);
+).observe && document.querySelectorAll(".outcome-stat").forEach((el) => {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting && !el._counted) {
+        animateCounter(el);
+        el._counted = true;
+      }
+    });
+  }, { threshold: 0.5 });
+  obs.observe(el);
 });
 
 /* ============================================================
-   ACTIVE NAV
+   ACTIVE TAB / FILE TREE / STATUS BAR — update on scroll
 ============================================================ */
 const sections = document.querySelectorAll("section[id]");
-const navLinks = document.querySelectorAll(".site-nav__links a");
+const tabs = document.querySelectorAll(".tab[data-tab]");
+const ftItems = document.querySelectorAll(".ft-item[data-file]");
+const titleFile = document.getElementById("title-file");
+const statusFile = document.getElementById("status-file");
 
-const navObserver = new IntersectionObserver(
+function setActive(id) {
+  tabs.forEach((t) => t.classList.toggle("tab--active", t.dataset.tab === id));
+  ftItems.forEach((f) => f.classList.toggle("ft-active", f.dataset.file === id));
+  const name = `${id}.tsx`;
+  if (titleFile) titleFile.textContent = name;
+  if (statusFile) statusFile.textContent = name;
+}
+
+new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        navLinks.forEach((link) => {
-          link.classList.toggle(
-            "nav-active",
-            link.getAttribute("href") === `#${entry.target.id}`
-          );
-        });
-      }
+      if (entry.isIntersecting) setActive(entry.target.id);
     });
   },
-  { threshold: 0.35 }
-);
-
-sections.forEach((s) => navObserver.observe(s));
+  { threshold: 0.3 }
+).observe ? (() => {
+  const obs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); });
+    },
+    { threshold: 0.3 }
+  );
+  sections.forEach((s) => obs.observe(s));
+})() : null;
