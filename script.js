@@ -111,3 +111,67 @@ new IntersectionObserver(
   );
   sections.forEach((s) => obs.observe(s));
 })() : null;
+
+/* ============================================================
+   TYPING ANIMATION — hero code block
+============================================================ */
+const heroCodeBlock = document.getElementById('hero-code-block');
+if (heroCodeBlock) {
+  const fullHTML = heroCodeBlock.innerHTML;
+  heroCodeBlock.innerHTML = '';
+  let i = 0;
+  let buffer = '';
+
+  function typeNextChar() {
+    if (i >= fullHTML.length) return;
+
+    // Consume all HTML tags instantly (no visual delay)
+    while (i < fullHTML.length && fullHTML[i] === '<') {
+      const end = fullHTML.indexOf('>', i);
+      buffer += fullHTML.slice(i, end + 1);
+      i = end + 1;
+    }
+
+    if (i < fullHTML.length) {
+      buffer += fullHTML[i++];
+      heroCodeBlock.innerHTML = buffer;
+      setTimeout(typeNextChar, 11);
+    } else {
+      heroCodeBlock.innerHTML = buffer;
+    }
+  }
+
+  setTimeout(typeNextChar, 350);
+}
+
+/* ============================================================
+   LN X, COL X — status bar scroll tracker
+============================================================ */
+const statusLn = document.getElementById('status-ln');
+if (statusLn) {
+  function updateLn() {
+    const scrolled = window.scrollY;
+    const total = Math.max(1, document.body.scrollHeight - window.innerHeight);
+    const ln = Math.max(1, Math.round((scrolled / total) * 310));
+    statusLn.textContent = `Ln ${ln}, Col 1`;
+  }
+  window.addEventListener('scroll', updateLn, { passive: true });
+  updateLn();
+}
+
+/* ============================================================
+   COPY EMAIL
+============================================================ */
+const copyEmailBtn = document.querySelector('.copy-email-btn');
+if (copyEmailBtn) {
+  copyEmailBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText('jw4544@columbia.edu').then(() => {
+      copyEmailBtn.textContent = '✓ Copied!';
+      copyEmailBtn.classList.add('copy-email-btn--copied');
+      setTimeout(() => {
+        copyEmailBtn.textContent = 'Copy email';
+        copyEmailBtn.classList.remove('copy-email-btn--copied');
+      }, 2000);
+    });
+  });
+}
